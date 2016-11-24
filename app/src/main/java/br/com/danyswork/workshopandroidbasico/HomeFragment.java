@@ -1,6 +1,7 @@
 package br.com.danyswork.workshopandroidbasico;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,36 +9,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends BaseFragment {
 
     private static final String TAG = HomeFragment.class.getCanonicalName();
-
-    public HomeFragment() {
-        // Required empty public constructor
-
-    }
-
-    private final String[] mList = new String[] {
-            "Layouts",
-            "TextView",
-            "EditText",
-            "ImageView",
-            "Button",
-            "Listas",
-            "Dialogs"
-    };
 
     public String getFragmentTag(){
         return TAG;
     }
 
+    private Components[] mList;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mList = Components.values();
     }
 
     @Override
@@ -48,21 +35,29 @@ public class HomeFragment extends Fragment {
 
         LinearLayoutManager layoutParams = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutParams);
-        recyclerView.setAdapter(new RecyclerView.Adapter<PlanetViewHolder>() {
+        recyclerView.setAdapter(new RecyclerView.Adapter<ComponentsViewHolder>() {
 
             @Override
-            public PlanetViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            public ComponentsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 View v = LayoutInflater.from(parent.getContext()).inflate(
                         android.R.layout.simple_list_item_1,
                         parent,
                         false);
-                return new PlanetViewHolder(v);
+                return new ComponentsViewHolder(v);
             }
 
             @Override
-            public void onBindViewHolder(PlanetViewHolder vh, int position) {
+            public void onBindViewHolder(ComponentsViewHolder vh, final int position) {
                 TextView tv = (TextView) vh.itemView;
-                tv.setText(mList[position]);
+                tv.setText(mList[position].getName());
+                vh.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        BaseFragment fragment = mList[position].getKlass();
+                        HomeFragment.this.getActivity().getSupportFragmentManager()
+                               .beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(fragment.getFragmentTag()).commit();
+                    }
+                });
             }
 
             @Override
@@ -74,20 +69,11 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    private class PlanetViewHolder
-            extends RecyclerView.ViewHolder
-            implements View.OnClickListener {
+    private class ComponentsViewHolder
+            extends RecyclerView.ViewHolder {
 
-        PlanetViewHolder(View v) {
+        ComponentsViewHolder(View v) {
             super(v);
-            v.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            Toast.makeText(HomeFragment.this.getContext(),
-                    "You have clicked " + ((TextView) v).getText(),
-                    Toast.LENGTH_LONG).show();
         }
     }
 }

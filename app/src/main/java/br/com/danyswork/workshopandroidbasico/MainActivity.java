@@ -1,8 +1,13 @@
 package br.com.danyswork.workshopandroidbasico;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.FrameLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -13,7 +18,20 @@ public class MainActivity extends AppCompatActivity {
 
         HomeFragment homeFragment = new HomeFragment();
 
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, homeFragment)
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, homeFragment)
                 .addToBackStack(homeFragment.getFragmentTag()).commit();
     }
+
+
+    @Override
+    public void onBackPressed() {
+        if (!popBackStack()) {
+            finish();
+        }
+    }
+
+    public boolean popBackStack() {
+        return getSupportFragmentManager().popBackStackImmediate();
+    }
+
 }

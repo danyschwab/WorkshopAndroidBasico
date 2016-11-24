@@ -8,17 +8,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
-public class TextViewFragment extends Fragment {
+public class TextViewFragment extends BaseFragment {
 
-    public TextViewFragment() {
-        // Required empty public constructor
-    }
+    private static final String TAG = TextViewFragment.class.getCanonicalName();
 
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
+    public static BaseFragment getInstance() {
+        return new TextViewFragment();
     }
 
     @Override
@@ -28,5 +23,10 @@ public class TextViewFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_text_view, container, false);
         TextView textView = (TextView) view.findViewById(R.id.text_view);
         return view;
+    }
+
+    @Override
+    public String getFragmentTag() {
+        return TAG;
     }
 }
