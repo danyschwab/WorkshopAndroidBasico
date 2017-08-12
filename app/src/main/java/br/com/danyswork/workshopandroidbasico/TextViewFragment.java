@@ -21,7 +21,7 @@ public class TextViewFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_text_view, container, false);
-        TextView textView = (TextView) view.findViewById(R.id.text_view);
+        TextView textView = view.findViewById(R.id.text_view);
         return view;
     }
 

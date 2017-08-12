@@ -41,7 +41,7 @@ public class SensorFragment extends BaseFragment implements SensorEventListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
        View view =  inflater.inflate(R.layout.fragment_sensor, container, false);
-        mTextView = (TextView) view.findViewById(R.id.text_view);
+        mTextView = view.findViewById(R.id.text_view);
         return view;
     }
 
